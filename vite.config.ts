@@ -39,7 +39,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             host: '0.0.0.0',
             proxy: {
                 '/api/v1': {
-                    target: 'http://localhost:9999/',
+                    target: 'https://demo.1panel.cn/',
                     changeOrigin: true,
                     ws: true,
                 },
