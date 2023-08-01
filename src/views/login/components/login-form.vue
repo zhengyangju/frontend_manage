@@ -227,7 +227,11 @@ const login = (formEl: FormInstance | undefined) => {
         }
         try {
             loading.value = true;
-            const res = await loginApi(requestLoginForm);
+            const formData = new FormData();
+            formData.append('username', requestLoginForm.username);
+            formData.append('password', requestLoginForm.password);
+            const res = await loginApi(formData);
+            // const res = await loginApi(requestLoginForm);
             if (res.code === 406) {
                 if (res.message === 'ErrCaptchaCode') {
                     loginForm.captcha = '';
@@ -261,9 +265,13 @@ const login = (formEl: FormInstance | undefined) => {
 
 const mfaLogin = async () => {
     if (mfaLoginForm.code) {
-        mfaLoginForm.username = loginForm.username;
-        mfaLoginForm.password = loginForm.password;
-        const res = await mfaLoginApi(mfaLoginForm);
+        // mfaLoginForm.username = loginForm.username;
+        // mfaLoginForm.password = loginForm.password;
+        // const res = await mfaLoginApi(mfaLoginForm);
+        const formData = new FormData();
+        formData.append('username', loginForm.username);
+        formData.append('password', loginForm.password);
+        const res = await mfaLoginApi(formData);
         if (res.code === 406) {
             errMfaInfo.value = true;
             return;

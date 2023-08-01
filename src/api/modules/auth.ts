@@ -3,12 +3,14 @@ import http from '@/api';
 
 export const loginApi = (params: Login.ReqLoginForm) => {
     // return http.post<Login.ResLogin>(`/auth/login`, params);
-    return http.post<Login.ResLogin>(`/login/access-token`, params);
+    // return http.upload<Login.ResLogin>(`/login/access-token`, params);
+    return http.upload(`/login/access-token`, params);
 };
 
 export const mfaLoginApi = (params: Login.MFALoginForm) => {
     // return http.post<Login.ResLogin>(`/auth/mfalogin`, params);
-    return http.post<Login.ResLogin>(`/login/access-token`, params);
+    // return http.upload<Login.ResLogin>(`/login/access-token`, params);
+    return http.upload(`/login/access-token`, params);
 };
 
 export const getCaptcha = () => {
