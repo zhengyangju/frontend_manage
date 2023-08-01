@@ -12,7 +12,7 @@
                     <div class="rank-line" v-for="(item, index) in rankList.list1" :key="item.name">
                         <div class="left">
                             <span :class="`top${index + 1} top-error`">{{ index + 1 }}</span>
-                            <el-avatar shape="circle" :size="50" src="../../../assets/images/1panel-logo-light.png" />
+                            <el-avatar shape="circle" :size="50" :src="item.headshot" />
                             <el-text class="app-title-info">{{ item.name }}</el-text>
                         </div>
                         <div class="ballot">{{ item.ballot }}</div>
@@ -32,7 +32,7 @@
                     <div class="rank-line" v-for="(item, index) in rankList.list2" :key="item.name">
                         <div class="left">
                             <span :class="`top${index + 1} top-error`">{{ index + 1 }}</span>
-                            <el-avatar shape="circle" :size="50" src="../../../assets/images/1panel-logo-light.png" />
+                            <el-avatar shape="circle" :size="50" :src="item.headshot" />
                             <el-text class="app-title-info">{{ item.name }}</el-text>
                         </div>
                         <div class="ballot">{{ item.ballot }}</div>
@@ -52,7 +52,7 @@
                     <div class="rank-line" v-for="(item, index) in rankList.list3" :key="item.name">
                         <div class="left">
                             <span :class="`top${index + 1} top-error`">{{ index + 1 }}</span>
-                            <el-avatar shape="circle" :size="50" src="../../../assets/images/1panel-logo-light.png" />
+                            <el-avatar shape="circle" :size="50" :src="item.headshot" />
                             <el-text class="app-title-info">{{ item.name }}</el-text>
                         </div>
                         <div class="ballot">{{ item.ballot }}</div>

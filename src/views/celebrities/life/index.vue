@@ -30,7 +30,7 @@
                 <el-table-column :label="$t('celebrities.headshot')" prop="headshot" fix>
                     <template #default="{ row }">
                         <span v-if="row.headshot">
-                            {{ $t(row.headshot) }}
+                            <el-avatar shape="circle" :size="50" :src="row.headshot" />
                         </span>
                     </template>
                 </el-table-column>
@@ -74,7 +74,7 @@
                             :key="item.key"
                             :type="item.type(row)"
                             link
-                            @click="item.click"
+                            @click="item.click(row)"
                         >
                             {{ typeof item.label === 'function' ? item.label(row) : item.label }}
                         </el-button>

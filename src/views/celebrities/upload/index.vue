@@ -57,6 +57,7 @@ const loading = ref(false);
 let uploadPrecent = ref(0);
 const open = ref(false);
 const path = ref();
+const row = ref();
 let uploadHelper = ref('');
 
 const em = defineEmits(['close', 'call-back']);
@@ -67,6 +68,7 @@ const handleClose = () => {
     open.value = false;
     uploadRef.value!.clearFiles();
     uploaderFiles.value = [];
+    row.value = 0;
     em('close', false);
 };
 
@@ -113,7 +115,10 @@ const submit = async () => {
                 MsgSuccess(i18n.global.t('file.uploadSuccess'));
             }
         }
-        console.log(res);
+        if (res.code == 200) {
+            em('call-back', { ...row.value, headshot: res.data.detail.image });
+            handleClose();
+        }
 
         // const chunkCount = Math.ceil(fileSize / CHUNK_SIZE);
         // let uploadedChunkCount = 0;
@@ -163,6 +168,7 @@ const submit = async () => {
 };
 
 const acceptParams = (props: UploadFileProps) => {
+    row.value = props;
     path.value = props.path;
     open.value = true;
     uploadPrecent.value = 0;

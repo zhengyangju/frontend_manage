@@ -198,7 +198,9 @@ const openUploads = (row) => {
 };
 
 const setUrl = (row) => {
-    console.log(row);
+    // console.log(row);
+    let d = data.value.find((item) => item.id === row.id);
+    d['headshot'] = row.headshot;
 };
 
 defineExpose({
