@@ -21,14 +21,12 @@ class RequestHttp {
         let language = globalStore.language === 'tw' ? 'zh-Hant' : globalStore.language;
         this.service.interceptors.request.use(
             (config: AxiosRequestConfig) => {
-                if (config.method !== 'get') {
-                    config.headers = {
-                        'X-CSRF-TOKEN': globalStore.csrfToken,
-                        Authorization: globalStore.csrfToken,
-                        'Accept-Language': language,
-                        ...config.headers,
-                    };
-                }
+                config.headers = {
+                    'X-CSRF-TOKEN': globalStore.tokenType + ' ' + globalStore.csrfToken,
+                    Authorization: globalStore.tokenType + ' ' + globalStore.csrfToken,
+                    'Accept-Language': language,
+                    ...config.headers,
+                };
                 return {
                     ...config,
                 };
@@ -49,9 +47,7 @@ class RequestHttp {
                 };
                 if (rdata.access_token) {
                     globalStore.setCsrfToken(rdata.access_token);
-                }
-                if (response.headers['x-csrf-token']) {
-                    globalStore.setCsrfToken(response.headers['x-csrf-token']);
+                    globalStore.setTokenType(rdata.token_type);
                 }
                 if (data.code == ResultEnum.OVERDUE || data.code == ResultEnum.FORBIDDEN) {
                     globalStore.setLogStatus(false);

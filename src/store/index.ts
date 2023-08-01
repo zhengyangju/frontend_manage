@@ -13,6 +13,7 @@ export const GlobalStore = defineStore({
         loadingText: '',
         isLogin: false,
         csrfToken: '',
+        tokenType: '',
         entrance: '',
         language: '',
         themeConfig: {
@@ -44,6 +45,9 @@ export const GlobalStore = defineStore({
         },
         setCsrfToken(token: string) {
             this.csrfToken = token;
+        },
+        setTokenType(type: string) {
+            this.tokenType = type;
         },
         updateLanguage(language: any) {
             this.language = language;
