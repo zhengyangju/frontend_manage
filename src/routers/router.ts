@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { Layout } from '@/routers/constant';
 
-const modules = import.meta.globEager('./modules/*.ts');
+const modules = import.meta.globEager('./mymodules/*.ts');
 
 const homeRouter: RouteRecordRaw = {
     path: '/',
@@ -9,21 +9,21 @@ const homeRouter: RouteRecordRaw = {
     redirect: '/',
     meta: {
         keepAlive: true,
-        title: 'menu.home',
-        icon: 'p-home',
+        title: 'menu.rank',
+        icon: 'p-rejected-order',
     },
     children: [
         {
             path: '/',
-            name: 'home',
-            component: () => import('@/views/home/index.vue'),
+            name: 'rank',
+            component: () => import('@/views/ranks/index.vue'),
             meta: {
                 requiresAuth: true,
             },
         },
     ],
 };
-
+console.log(modules);
 export const routerArray: RouteRecordRaw[] = [];
 
 export const rolesRoutes = [

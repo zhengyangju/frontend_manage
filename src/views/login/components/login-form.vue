@@ -42,7 +42,7 @@
                     <div class="login-form-header">
                         <div class="title">{{ $t('commons.button.login') }}</div>
                         <div>
-                            <el-dropdown @command="handleCommand">
+                            <el-dropdown @command="handleCommand" v-show="false">
                                 <span>
                                     {{ dropdownText }}
                                     <el-icon>
@@ -61,7 +61,7 @@
                     </div>
                     <el-form-item prop="name" class="no-border">
                         <el-input
-                            v-model.trim="loginForm.name"
+                            v-model.trim="loginForm.username"
                             :placeholder="$t('commons.login.username')"
                             class="form-input"
                         >
@@ -90,22 +90,6 @@
                             {{ $t('commons.login.errorAuthInfo') }}
                         </span>
                     </el-form-item>
-                    <el-form-item v-if="!globalStore.ignoreCaptcha" prop="captcha" class="login-captcha">
-                        <el-input v-model.trim="loginForm.captcha" :placeholder="$t('commons.login.captchaHelper')">
-                            <template #prefix>
-                                <svg-icon style="font-size: 7px" iconName="p-yanzhengma1"></svg-icon>
-                            </template>
-                        </el-input>
-                        <img
-                            v-if="captcha.imagePath"
-                            :src="captcha.imagePath"
-                            :alt="$t('commons.login.captchaHelper')"
-                            @click="loginVerify()"
-                        />
-                        <span v-if="errCaptcha" class="input-error" style="line-height: 14px">
-                            {{ $t('commons.login.errorCaptcha') }}
-                        </span>
-                    </el-form-item>
                     <el-form-item>
                         <el-button
                             @click="login(loginFormRef)"
@@ -124,7 +108,7 @@
                             <template #default>
                                 <span
                                     style="white-space: pre-wrap; line-height: 14px"
-                                    v-html="$t('commons.login.licenseHelper')"
+                                    v-html="$t('commons.login.licenseHelper2')"
                                 ></span>
                             </template>
                         </el-checkbox>
@@ -151,7 +135,7 @@
 import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import type { ElForm } from 'element-plus';
-import { loginApi, getCaptcha, mfaLoginApi, checkIsDemo, getLanguage } from '@/api/modules/auth';
+import { loginApi, mfaLoginApi } from '@/api/modules/auth';
 import { GlobalStore } from '@/store';
 import { MenuStore } from '@/store/modules/menu';
 import i18n from '@/lang';
@@ -173,7 +157,7 @@ type FormInstance = InstanceType<typeof ElForm>;
 const loginButtonFocused = ref();
 const loginFormRef = ref<FormInstance>();
 const loginForm = reactive({
-    name: '',
+    username: '',
     password: '',
     ignoreCaptcha: true,
     captcha: '',
@@ -183,13 +167,13 @@ const loginForm = reactive({
     language: 'zh',
 });
 const loginRules = reactive({
-    name: [{ required: true, message: i18n.global.t('commons.rule.username'), trigger: 'blur' }],
+    username: [{ required: true, message: i18n.global.t('commons.rule.username'), trigger: 'blur' }],
     password: [{ required: true, message: i18n.global.t('commons.rule.password'), trigger: 'blur' }],
 });
 
 const mfaButtonFocused = ref();
 const mfaLoginForm = reactive({
-    name: '',
+    username: '',
     password: '',
     secret: '',
     code: '',
@@ -225,7 +209,7 @@ const login = (formEl: FormInstance | undefined) => {
     formEl.validate(async (valid) => {
         if (!valid) return;
         let requestLoginForm = {
-            name: loginForm.name,
+            username: loginForm.username,
             password: loginForm.password,
             ignoreCaptcha: globalStore.ignoreCaptcha,
             captcha: loginForm.captcha,
@@ -255,7 +239,6 @@ const login = (formEl: FormInstance | undefined) => {
                     errCaptcha.value = false;
                     errAuthInfo.value = true;
                 }
-                loginVerify();
                 return;
             }
             globalStore.ignoreCaptcha = true;
@@ -268,9 +251,8 @@ const login = (formEl: FormInstance | undefined) => {
             globalStore.setAgreeLicense(true);
             menuStore.setMenuList([]);
             MsgSuccess(i18n.global.t('commons.msg.loginSuccess'));
-            router.push({ name: 'home' });
+            router.push({ name: 'celebrities' });
         } catch (error) {
-            loginVerify();
         } finally {
             loading.value = false;
         }
@@ -279,7 +261,7 @@ const login = (formEl: FormInstance | undefined) => {
 
 const mfaLogin = async () => {
     if (mfaLoginForm.code) {
-        mfaLoginForm.name = loginForm.name;
+        mfaLoginForm.username = loginForm.username;
         mfaLoginForm.password = loginForm.password;
         const res = await mfaLoginApi(mfaLoginForm);
         if (res.code === 406) {
@@ -289,35 +271,22 @@ const mfaLogin = async () => {
         globalStore.setLogStatus(true);
         menuStore.setMenuList([]);
         MsgSuccess(i18n.global.t('commons.msg.loginSuccess'));
-        router.push({ name: 'home' });
+        router.push({ name: 'celebrities' });
     }
-};
-const loginVerify = async () => {
-    const res = await getCaptcha();
-    captcha.imagePath = res.data.imagePath ? res.data.imagePath : '';
-    captcha.captchaID = res.data.captchaID ? res.data.captchaID : '';
-    captcha.captchaLength = res.data.captchaLength ? res.data.captchaLength : 0;
-};
-
-const checkIsSystemDemo = async () => {
-    const res = await checkIsDemo();
-    isDemo.value = res.data;
 };
 
 const loadLanguage = async () => {
     try {
-        const res = await getLanguage();
-        loginForm.language = res.data;
-        handleCommand(res.data);
+        // const res = await getLanguage();
+        // loginForm.language = res.data;
+        handleCommand('zh');
     } catch (error) {}
 };
 
 onMounted(() => {
-    loginVerify();
     loadLanguage();
     document.title = globalStore.themeConfig.panelName;
     loginForm.agreeLicense = globalStore.agreeLicense;
-    checkIsSystemDemo();
     document.onkeydown = (e: any) => {
         e = window.event || e;
         if (e.keyCode === 13) {

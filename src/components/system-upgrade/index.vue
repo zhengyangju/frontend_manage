@@ -10,7 +10,7 @@
             </el-button>
             <el-divider direction="vertical" />
         </span>
-        <span class="version">{{ $t('setting.currentVersion') + version }}</span>
+        <!-- <span class="version">{{ $t('setting.currentVersion') + version }}</span> -->
         <el-badge
             is-dot
             class="item"
@@ -21,7 +21,7 @@
                 <span style="font-size: 14px">（{{ $t('setting.hasNewVersion') }}）</span>
             </el-button>
         </el-badge>
-        <el-button
+        <!-- <el-button
             v-if="version !== 'Waiting' && !globalStore.hasNewVersion"
             style="margin-top: -2px"
             type="primary"
@@ -29,7 +29,7 @@
             @click="onLoadUpgradeInfo"
         >
             （{{ $t('setting.upgradeCheck') }}）
-        </el-button>
+        </el-button> -->
         <el-tag v-if="version === 'Waiting'" round style="margin-left: 10px">{{ $t('setting.upgrading') }}</el-tag>
     </div>
     <el-drawer :close-on-click-modal="false" :key="refresh" v-model="drawerVisiable" size="50%" append-to-body>
@@ -93,8 +93,10 @@ const props = defineProps({
 });
 
 const search = async () => {
-    const res = await getSettingInfo();
-    version.value = res.data.systemVersion;
+    if (false) {
+        const res = await getSettingInfo();
+        version.value = res.data.systemVersion;
+    }
 };
 
 const handleClose = () => {

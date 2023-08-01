@@ -424,6 +424,7 @@ interface CommonRule {
     linuxName: FormItemRule;
     password: FormItemRule;
     email: FormItemRule;
+    emailCheck: FormItemRule;
     number: FormItemRule;
     integerNumber: FormItemRule;
     integerNumberWith0: FormItemRule;
@@ -513,6 +514,12 @@ export const Rules: CommonRule = {
     },
     email: {
         required: true,
+        type: 'email',
+        message: i18n.global.t('commons.rule.email'),
+        trigger: 'blur',
+    },
+    emailCheck: {
+        required: false,
         type: 'email',
         message: i18n.global.t('commons.rule.email'),
         trigger: 'blur',

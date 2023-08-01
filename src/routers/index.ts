@@ -27,7 +27,14 @@ router.beforeEach((to, from, next) => {
         NProgress.done();
         return;
     }
-
+    if (!globalStore.isLogin && to.name !== 'login' && to.name !== '404' && to.name !== 'entrance') {
+        next({
+            name: 'login',
+            params: { code: globalStore.entrance },
+        });
+        NProgress.done();
+        return;
+    }
     if (!to.matched.some((record) => record.meta.requiresAuth)) return next();
     return next();
 });

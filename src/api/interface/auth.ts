@@ -1,6 +1,6 @@
 export namespace Login {
     export interface ReqLoginForm {
-        name: string;
+        username: string;
         password: string;
         ignoreCaptcha: boolean;
         captcha: string;
@@ -8,13 +8,13 @@ export namespace Login {
         authMethod: string;
     }
     export interface MFALoginForm {
-        name: string;
+        username: string;
         password: string;
         code: string;
         authMethod: string;
     }
     export interface ResLogin {
-        name: string;
+        username: string;
         token: string;
         mfaStatus: string;
     }

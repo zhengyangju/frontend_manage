@@ -513,8 +513,10 @@ const loadUpgradeStatus = async () => {
 };
 
 const loadSafeStatus = async () => {
-    const res = await getSettingInfo();
-    isSafety.value = res.data.securityEntrance;
+    if (false) {
+        const res = await getSettingInfo();
+        isSafety.value = res.data.securityEntrance;
+    }
 };
 
 const onFocus = () => {

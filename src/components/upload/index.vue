@@ -118,6 +118,7 @@ const acceptParams = async (params: DialogProps): Promise<void> => {
     type.value = params.type;
     name.value = params.name;
     detailName.value = params.detailName;
+    upVisiable.value = true;
 
     const pathRes = await loadBaseDir();
     if (type.value === 'mysql') {

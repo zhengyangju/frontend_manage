@@ -3,10 +3,10 @@
         <div class="login-backgroud" v-if="isSafety && !isErr && !isNotFound">
             <div class="login-wrapper">
                 <div :class="screenWidth > 1110 ? 'left inline-block' : ''">
-                    <div class="login-title">
+                    <!-- <div class="login-title">
                         <span>{{ $t('commons.login.title') }}</span>
                     </div>
-                    <img src="@/assets/images/1panel-login.png" alt="" v-if="screenWidth > 1110" />
+                    <img src="@/assets/images/1panel-login.png" alt="" v-if="screenWidth > 1110" /> -->
                 </div>
                 <div :class="screenWidth > 1110 ? 'right inline-block' : ''">
                     <div class="login-container">
@@ -82,7 +82,9 @@ const getStatus = async () => {
 };
 
 onMounted(() => {
-    getStatus();
+    if (false) {
+        getStatus();
+    }
     screenWidth.value = document.body.clientWidth;
     window.onresize = () => {
         return (() => {

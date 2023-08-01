@@ -10,13 +10,14 @@ export interface ResultData<T> {
 }
 
 export interface ResPage<T> {
+    data: any[];
     items: T[];
     total: number;
 }
 
 export interface ReqPage {
     page: number;
-    pageSize: number;
+    size: number;
 }
 export interface SearchWithPage {
     info: string;

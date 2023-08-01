@@ -62,14 +62,16 @@ watch(
 );
 
 const loadDataFromDB = async () => {
-    const res = await getSettingInfo();
-    document.title = res.data.panelName;
-    i18n.locale.value = res.data.language;
-    i18n.warnHtmlMessage = false;
-    globalStore.entrance = res.data.securityEntrance;
-    globalStore.updateLanguage(res.data.language);
-    globalStore.setThemeConfig({ ...themeConfig.value, theme: res.data.theme });
-    globalStore.setThemeConfig({ ...themeConfig.value, panelName: res.data.panelName });
+    if (false) {
+        const res = await getSettingInfo();
+        document.title = res.data.panelName;
+        i18n.locale.value = res.data.language;
+        i18n.warnHtmlMessage = false;
+        globalStore.entrance = res.data.securityEntrance;
+        globalStore.updateLanguage(res.data.language);
+        globalStore.setThemeConfig({ ...themeConfig.value, theme: res.data.theme });
+        globalStore.setThemeConfig({ ...themeConfig.value, panelName: res.data.panelName });
+    }
     switchDark();
 };
 

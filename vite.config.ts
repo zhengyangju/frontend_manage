@@ -38,8 +38,9 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             open: viteEnv.VITE_OPEN,
             host: '0.0.0.0',
             proxy: {
-                '/api/v1': {
-                    target: 'https://demo.1panel.cn/',
+                '/api/v1.0': {
+                    // target: 'https://demo.1panel.cn/',
+                    target: 'http://127.0.0.1:4523/m1/3089481-0-default',
                     changeOrigin: true,
                     ws: true,
                 },

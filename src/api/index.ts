@@ -21,9 +21,10 @@ class RequestHttp {
         let language = globalStore.language === 'tw' ? 'zh-Hant' : globalStore.language;
         this.service.interceptors.request.use(
             (config: AxiosRequestConfig) => {
-                if (config.method != 'get') {
+                if (config.method !== 'get') {
                     config.headers = {
                         'X-CSRF-TOKEN': globalStore.csrfToken,
+                        Authorization: globalStore.csrfToken,
                         'Accept-Language': language,
                         ...config.headers,
                     };
@@ -39,7 +40,16 @@ class RequestHttp {
 
         this.service.interceptors.response.use(
             (response: AxiosResponse) => {
-                const { data } = response;
+                const { data: rdata, status, statusText } = response;
+                const data = {
+                    data: rdata,
+                    code: status,
+                    statusText,
+                    message: statusText,
+                };
+                if (rdata.access_token) {
+                    globalStore.setCsrfToken(rdata.access_token);
+                }
                 if (response.headers['x-csrf-token']) {
                     globalStore.setCsrfToken(response.headers['x-csrf-token']);
                 }
@@ -91,6 +101,7 @@ class RequestHttp {
             },
             async (error: AxiosError) => {
                 const { response } = error;
+                console.log(response); //404
                 if (error.message.indexOf('timeout') !== -1) MsgError('请求超时！请您稍后重试');
                 if (response) {
                     checkStatus(
@@ -125,6 +136,9 @@ class RequestHttp {
     }
     upload<T>(url: string, params: object = {}, config?: AxiosRequestConfig): Promise<T> {
         return this.service.post(url, params, config);
+    }
+    uploadPut<T>(url: string, params: object = {}, config?: AxiosRequestConfig): Promise<T> {
+        return this.service.put(url, params, config);
     }
 }
 
