@@ -121,23 +121,23 @@ const onOpenBackupDialog = async (row) => {
 const buttons = [
     {
         label: (row) =>
-            row.is_followed ? i18n.global.t('celebrities.is_follow') : i18n.global.t('celebrities.is_followed'),
+            row.is_followed ? i18n.global.t('celebrities.is_followed') : i18n.global.t('celebrities.is_follow'),
         click: (row) => {
             setCelebrityFollow({ id: row.id, is_followed: !row.is_followed });
             MsgSuccess(i18n.global.t('celebrities.set_follow'));
             search();
         },
-        type: (row) => (row.is_followed ? 'primary' : 'danger'),
+        type: (row) => (row.is_followed ? 'danger' : 'primary'),
         key: 1,
     },
     {
-        label: (row) => (row.is_liked ? i18n.global.t('celebrities.is_like') : i18n.global.t('celebrities.is_liked')),
+        label: (row) => (row.is_liked ? i18n.global.t('celebrities.is_liked') : i18n.global.t('celebrities.is_like')),
         click: (row) => {
             setCelebrityLike({ id: row.id, is_liked: !row.is_liked });
             MsgSuccess(i18n.global.t('celebrities.set_follow'));
             search();
         },
-        type: (row) => (row.is_liked ? 'primary' : 'danger'),
+        type: (row) => (row.is_liked ? 'danger' : 'primary'),
         key: 2,
     },
     {
