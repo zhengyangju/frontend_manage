@@ -25,7 +25,3 @@ export const uploadCelebrityFiles = (params: FormData, config: AxiosRequestConfi
 export const ChunkCelebrityUploadFileData = (params: FormData, config: AxiosRequestConfig) => {
     return http.upload<File.File>('files/chunkupload', params, config);
 };
-export const downloadCelebrityFiles = (params?: File.FileDownload) => {
-    // return http.download<BlobPart>('celebrities/template', params, { responseType: 'blob', timeout: 20000 });
-    return http.get<BlobPart>(`/celebrities/template`, params, { responseType: 'blob', timeout: 20000 });
-};

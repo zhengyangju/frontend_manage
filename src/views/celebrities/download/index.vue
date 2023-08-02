@@ -4,9 +4,12 @@
     </el-button>
 </template>
 <script lang="ts" setup>
-import { downloadCelebrityFiles } from '@/api/modules/celebrity';
+const downloadFile = (filePath: string) => {
+    let url = `${import.meta.env.VITE_API_URL as string}/celebrities/template?`;
+    window.open(url + 'path=' + filePath, '_blank');
+};
 
 const downloadCelebrities = () => {
-    downloadCelebrityFiles();
+    downloadFile('');
 };
 </script>
