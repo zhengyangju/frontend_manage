@@ -6,9 +6,7 @@
                     <el-button plain :disabled="false" type="primary" @click="openUploads()">
                         {{ $t('celebrities.import') }}
                     </el-button>
-                    <el-button plain :disabled="false" type="primary">
-                        {{ $t('commons.button.download') }}
-                    </el-button>
+                    <Download />
                 </el-col>
                 <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8">
                     <div class="search-button">
@@ -95,6 +93,7 @@ import Uploads from '../upload/index.vue';
 import i18n from '@/lang';
 import { uploadCelebrityFiles } from '@/api/modules/celebrity';
 import { MsgSuccess } from '@/utils/message';
+import Download from '../download/index.vue';
 // import { GlobalStore } from '@/store';
 
 // const globalStore = GlobalStore();
@@ -124,7 +123,7 @@ const buttons = [
         label: (row) =>
             row.is_followed ? i18n.global.t('celebrities.is_follow') : i18n.global.t('celebrities.is_followed'),
         click: (row) => {
-            setCelebrityFollow({ id: row.id });
+            setCelebrityFollow({ id: row.id, is_followed: !row.is_followed });
             MsgSuccess(i18n.global.t('celebrities.set_follow'));
             search();
         },
@@ -134,7 +133,7 @@ const buttons = [
     {
         label: (row) => (row.is_liked ? i18n.global.t('celebrities.is_like') : i18n.global.t('celebrities.is_liked')),
         click: (row) => {
-            setCelebrityLike({ id: row.id });
+            setCelebrityLike({ id: row.id, is_liked: !row.is_liked });
             MsgSuccess(i18n.global.t('celebrities.set_follow'));
             search();
         },

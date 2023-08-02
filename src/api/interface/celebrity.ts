@@ -16,6 +16,8 @@ export namespace Celebrities {
 
     export interface ReqCelebrity {
         id: string;
+        is_followed?: boolean;
+        is_liked?: boolean;
     }
 
     export interface CelebrityDetail {

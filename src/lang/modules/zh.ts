@@ -1217,6 +1217,7 @@ const message = {
         sex_man: '男',
         sex_woman: '女',
         import: '导入模版',
+        download: '下载模版',
         app: '应用',
         installName: '安装名称',
         installed: '已安装',
