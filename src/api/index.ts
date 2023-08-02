@@ -108,7 +108,11 @@ class RequestHttp {
                 if (response) {
                     checkStatus(
                         response.status,
-                        response.data && response.data['message'] ? response.data['message'] : '',
+                        response.data && response.data['message']
+                            ? response.data['message']
+                            : response.data['msg']
+                            ? response.data['msg']
+                            : '',
                     );
                 }
                 if (!window.navigator.onLine) router.replace({ path: '/500' });
