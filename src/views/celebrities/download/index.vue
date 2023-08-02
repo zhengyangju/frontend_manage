@@ -9,6 +9,7 @@ import { downloadCelebrityFiles } from '@/api/modules/celebrity';
 const downloadCelebrities = () => {
     downloadCelebrityFiles()
         .then(({ data, headers }) => {
+            console.log(data);
             let filename = null;
             if (headers['content-disposition'].indexOf('filename*=') > 0) {
                 filename = decodeURIComponent(headers['content-disposition'].split('filename*=')[1].split("''")[1]);
@@ -16,10 +17,10 @@ const downloadCelebrities = () => {
                 filename = headers['content-disposition'].split(';')[1].split('=')[1];
             }
             const downloadUrl = window.URL.createObjectURL(
-                // new Blob([data], { type: 'application/vnd.ms-excel;charset=utf-8' }),
-                new Blob([data], {
-                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8',
-                }),
+                new Blob([data], { type: 'application/vnd.ms-excel;charset=utf-8' }),
+                // new Blob([data], {
+                //     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8',
+                // }),
             );
             const a = document.createElement('a');
             a.style.display = 'none';
