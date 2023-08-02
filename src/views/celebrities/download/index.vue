@@ -15,7 +15,7 @@ const downloadCelebrities = () => {
             } else {
                 filename = headers['content-disposition'].split(';')[1].split('=')[1];
             }
-            const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+            const downloadUrl = window.URL.createObjectURL(data);
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = downloadUrl;
