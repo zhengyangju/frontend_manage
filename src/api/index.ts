@@ -93,7 +93,6 @@ class RequestHttp {
                     MsgError(data.message);
                     return Promise.reject(data);
                 }
-                console.log(response);
                 if (headers['content-disposition'] !== undefined) {
                     return {
                         response,
