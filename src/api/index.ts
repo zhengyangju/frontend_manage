@@ -38,7 +38,7 @@ class RequestHttp {
 
         this.service.interceptors.response.use(
             (response: AxiosResponse) => {
-                const { data: rdata, status, statusText } = response;
+                const { data: rdata, status, statusText, headers } = response;
                 const data = {
                     data: rdata,
                     code: status,
@@ -92,6 +92,13 @@ class RequestHttp {
                 if (data.code && data.code !== ResultEnum.SUCCESS) {
                     MsgError(data.message);
                     return Promise.reject(data);
+                }
+                console.log(response);
+                if (headers['content-disposition'] !== undefined) {
+                    return {
+                        data,
+                        headers,
+                    };
                 }
                 return data;
             },
