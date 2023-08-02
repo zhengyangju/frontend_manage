@@ -96,7 +96,7 @@ class RequestHttp {
                 console.log(response);
                 if (headers['content-disposition'] !== undefined) {
                     return {
-                        data,
+                        response,
                         headers,
                     };
                 }
