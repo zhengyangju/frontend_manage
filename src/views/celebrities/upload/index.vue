@@ -116,7 +116,12 @@ const submit = async () => {
             }
         }
         if (res.code == 200) {
-            em('call-back', { ...row.value, headshot: res.data.detail.image });
+            if (res.data.detail) {
+                em('call-back', { ...row.value, headshot: res.data.detail.image });
+            } else {
+                em('call-back');
+            }
+
             handleClose();
         }
 
