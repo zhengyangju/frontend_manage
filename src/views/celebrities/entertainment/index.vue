@@ -82,7 +82,7 @@
         </template>
     </LayoutContent>
     <CelebritiesDetail ref="dialogBackupRef" @search="search"></CelebritiesDetail>
-    <Uploads ref="uploadRef" :upload-func="uploadCelebrityFiles" />
+    <Uploads ref="uploadRef" :upload-func="uploadCelebrityFiles" @call-back="updateCelebrity" />
 </template>
 
 <script lang="ts" setup>
@@ -179,6 +179,10 @@ const openUploads = () => {
         type: 'app',
     };
     uploadRef.value.acceptParams(params);
+};
+
+const updateCelebrity = () => {
+    search();
 };
 
 onMounted(() => {
