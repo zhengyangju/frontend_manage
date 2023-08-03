@@ -15,7 +15,7 @@
                             <el-avatar shape="circle" :size="50" :src="item.headshot" />
                             <el-text class="app-title-info">{{ item.name }}</el-text>
                         </div>
-                        <div class="ballot">{{ item.ballot }}</div>
+                        <div class="ballot">{{ $t('celebrities.calc_ballot', { total: item.ballot }) }}</div>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                             <el-avatar shape="circle" :size="50" :src="item.headshot" />
                             <el-text class="app-title-info">{{ item.name }}</el-text>
                         </div>
-                        <div class="ballot">{{ item.ballot }}</div>
+                        <div class="ballot">{{ $t('celebrities.calc_ballot', { total: item.ballot }) }}</div>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                             <el-avatar shape="circle" :size="50" :src="item.headshot" />
                             <el-text class="app-title-info">{{ item.name }}</el-text>
                         </div>
-                        <div class="ballot">{{ item.ballot }}</div>
+                        <div class="ballot">{{ $t('celebrities.calc_ballot', { total: item.ballot }) }}</div>
                     </div>
                 </div>
             </div>

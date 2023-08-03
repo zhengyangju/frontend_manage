@@ -35,14 +35,14 @@
                 <el-table-column :label="$t('celebrities.name')" prop="name" sortable>
                     <template #default="{ row }">
                         <span v-if="row.name">
-                            {{ $t(row.name) }}
+                            {{ row.name }}
                         </span>
                     </template>
                 </el-table-column>
                 <el-table-column :label="$t('celebrities.address')" prop="address" sortable>
                     <template #default="{ row }">
                         <span v-if="row.address">
-                            {{ $t(row.address) }}
+                            {{ row.address }}
                         </span>
                     </template>
                 </el-table-column>
@@ -53,10 +53,10 @@
                         </span>
                     </template>
                 </el-table-column>
-                <el-table-column :label="$t('celebrities.ballot')" prop="ballot" sortable>
+                <el-table-column :label="$t('celebrities.ballot')" prop="ballot">
                     <template #default="{ row }">
                         <span v-if="row.ballot">
-                            {{ $t(row.ballot) }}
+                            {{ row.ballot }}
                         </span>
                     </template>
                 </el-table-column>
@@ -65,7 +65,7 @@
                     prop="remark"
                     show-overflow-tooltip
                 ></el-table-column>
-                <el-table-column ellipsis="4" :label="$t('commons.table.operate')" width="200">
+                <el-table-column ellipsis="4" :label="$t('commons.table.operate')" width="230">
                     <template #default="{ row }">
                         <el-button
                             v-for="item in buttons"
@@ -83,6 +83,7 @@
     </LayoutContent>
     <CelebritiesDetail ref="dialogBackupRef" @search="search"></CelebritiesDetail>
     <Uploads ref="uploadRef" :upload-func="uploadCelebrityFiles" @call-back="updateCelebrity" />
+    <Delete ref="deleteRef" @call-back="search()"></Delete>
 </template>
 
 <script lang="ts" setup>
@@ -93,6 +94,7 @@ import Uploads from '../upload/index.vue';
 import Download from '../download/index.vue';
 import i18n from '@/lang';
 import { uploadCelebrityFiles } from '@/api/modules/celebrity';
+import Delete from '../delete/index.vue';
 import { MsgSuccess } from '@/utils/message';
 // import { GlobalStore } from '@/store';
 
@@ -113,6 +115,8 @@ const loading = ref(false);
 const searchName = ref();
 
 const dialogBackupRef = ref();
+
+const deleteRef = ref();
 
 const onOpenBackupDialog = async (row) => {
     dialogBackupRef.value!.acceptParams(row);
@@ -141,15 +145,20 @@ const buttons = [
         key: 2,
     },
     {
+        label: i18n.global.t('commons.button.delete'),
+        click: (row) => {
+            deleteRef.value.acceptParams(row);
+        },
+        type: () => 'primary',
+        key: 3,
+    },
+    {
         label: i18n.global.t('celebrities.detail'),
         click: (row) => {
             onOpenBackupDialog(row);
         },
         type: () => 'primary',
-        key: 3,
-        // disabled: (row: Container.ContainerInfo) => {
-        //     return row.state !== 'running';
-        // },
+        key: 4,
     },
 ];
 

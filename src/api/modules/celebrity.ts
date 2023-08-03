@@ -16,6 +16,9 @@ export const setCelebrityLike = (params: Celebrities.ReqCelebrity) => {
 export const getCelebrityDetail = (params: Celebrities.ReqCelebrity) => {
     return http.get(`/celebrities/${params.id}`);
 };
+export const deleteCelebrityDetail = (params: Celebrities.ReqCelebrity) => {
+    return http.delete(`/celebrities/${params.id}`);
+};
 export const editCelebrityDetail = (params: Celebrities.CelebrityDetail) => {
     return http.put(`/celebrities/${params.id}`, params);
 };
