@@ -81,7 +81,7 @@
             </ComplexTable>
         </template>
     </LayoutContent>
-    <CelebritiesDetail ref="dialogBackupRef" @search="search"></CelebritiesDetail>
+    <CelebritiesDetail ref="dialogBackupRef" @search="search" :is-edit="true"></CelebritiesDetail>
     <Uploads ref="uploadRef" :upload-func="uploadCelebrityFiles" @call-back="updateCelebrity" />
     <Delete ref="deleteRef" @call-back="search()"></Delete>
 </template>

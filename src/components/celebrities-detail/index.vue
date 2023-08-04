@@ -1,117 +1,161 @@
 <template>
     <div>
-        <el-drawer v-model="backupVisiable" :destroy-on-close="true" :close-on-click-modal="false" size="100%">
+        <el-drawer v-model.trim="backupVisiable" :destroy-on-close="true" :close-on-click-modal="false" size="100%">
             <template #header>
-                <DrawerHeader
-                    v-if="detailName"
-                    :header="$t('commons.button.view')"
-                    :resource="name + '(' + detailName + ')'"
-                    :back="handleClose"
-                />
-                <DrawerHeader v-else :header="$t('celebrities.detail')" :resource="name" :back="handleClose" />
+                <DrawerHeader :header="$t('celebrities.detail')" :back="handleClose" />
             </template>
-            <ComplexTable v-loading="loading" v-model:selects="selects" :data="data">
-                <template #toolbar>
-                    <el-button type="primary" @click="onCelebritySave()">
-                        {{ $t('commons.button.save') }}
-                    </el-button>
-                </template>
-                <el-table-column :label="$t('celebrities.character')" prop="character">
-                    <template #default="{ row }">
-                        <fu-select-rw-switch v-model="row.character">
-                            <template #read>
-                                <el-tag disable-transitions>
-                                    {{ characters.find((item) => item.value === row.character).label }}
-                                </el-tag>
-                            </template>
-                            <el-option
-                                v-for="item in characters"
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
-                            />
-                        </fu-select-rw-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('commons.table.name')" prop="name">
-                    <template #default="{ row }">
-                        <fu-input-rw-switch v-model="row.name"></fu-input-rw-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('celebrities.headshot')" prop="headshot">
-                    <template #default="{ row }">
-                        <el-avatar :size="50" :src="row.headshot" @click="openUploads(row)" />
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('celebrities.sex')" prop="sex">
-                    <template #default="{ row }">
-                        <fu-select-rw-switch v-model="row.sex">
-                            <template #read>
-                                <el-tag disable-transitions>
-                                    {{ sexTypes.find((item) => item.value === row.sex).label }}
-                                </el-tag>
-                            </template>
-                            <el-option
-                                v-for="item in sexTypes"
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
-                            />
-                        </fu-select-rw-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('celebrities.address')" prop="address">
-                    <template #default="{ row }">
-                        <fu-input-rw-switch v-model="row.address"></fu-input-rw-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('celebrities.ballot')" prop="ballot" />
-                <el-table-column :label="$t('celebrities.remark')" prop="remark" show-overflow-tooltip>
-                    <template #default="{ row }">
-                        <fu-input-rw-switch v-model="row.remark"></fu-input-rw-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    :label="$t('rank.contact_information')"
-                    prop="contact_information"
-                    show-overflow-tooltip
-                >
-                    <template #default="{ row }">
-                        <fu-input-rw-switch v-model="row.contact_information"></fu-input-rw-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('rank.tik_tok_link')" prop="tik_tok_link" show-overflow-tooltip>
-                    <template #default="{ row }">
-                        <fu-input-rw-switch v-model="row.tik_tok_link"></fu-input-rw-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    :label="$t('rank.little_red_book_link')"
-                    prop="little_red_book_link"
-                    show-overflow-tooltip
-                >
-                    <template #default="{ row }">
-                        <fu-input-rw-switch v-model="row.little_red_book_link"></fu-input-rw-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('rank.bilibili_link')" prop="bilibili_link" show-overflow-tooltip>
-                    <template #default="{ row }">
-                        <fu-input-rw-switch v-model="row.bilibili_link"></fu-input-rw-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column :label="$t('rank.weibolntl_link')" prop="weibolntl_link" show-overflow-tooltip>
-                    <template #default="{ row }">
-                        <fu-input-rw-switch v-model="row.weibolntl_link"></fu-input-rw-switch>
-                    </template>
-                </el-table-column>
-            </ComplexTable>
+
+            <div v-loading="loading">
+                <el-form ref="formRef" label-position="top" :model="form" :rules="rules">
+                    <el-row type="flex" justify="center" :gutter="10">
+                        <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
+                            <el-form-item :label="$t('celebrities.headshot')" prop="headshot">
+                                <el-avatar :size="275" :src="form.headshot" @click="openUploads(form)" />
+                            </el-form-item>
+                        </el-col>
+                        <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
+                            <el-form-item :label="$t('celebrities.character')" prop="character">
+                                <fu-select-rw-switch
+                                    :disabled="!is_edit"
+                                    style="width: 100%"
+                                    v-model.trim="form.character"
+                                >
+                                    <template #read>
+                                        <el-tag disable-transitions>
+                                            {{ characters.find((item) => item.value === form.character).label }}
+                                        </el-tag>
+                                    </template>
+                                    <el-option
+                                        v-for="item in characters"
+                                        :key="item.key"
+                                        :label="item.label"
+                                        :value="item.value"
+                                    />
+                                </fu-select-rw-switch>
+                            </el-form-item>
+                            <el-form-item :label="$t('commons.login.username')" prop="name">
+                                <fu-input-rw-switch
+                                    clearable
+                                    :disabled="!is_edit"
+                                    style="width: 100%"
+                                    v-model.trim="form.name"
+                                ></fu-input-rw-switch>
+                            </el-form-item>
+                            <el-form-item :label="$t('users.sex')" prop="sex">
+                                <fu-select-rw-switch :disabled="!is_edit" style="width: 100%" v-model.trim="form.sex">
+                                    <template #read>
+                                        <el-tag disable-transitions>
+                                            {{ sexTypes.find((item) => item.value === form.sex).label }}
+                                        </el-tag>
+                                    </template>
+                                    <el-option
+                                        v-for="item in sexTypes"
+                                        :key="item.key"
+                                        :label="item.label"
+                                        :value="item.value"
+                                    />
+                                </fu-select-rw-switch>
+                            </el-form-item>
+
+                            <el-form-item :label="$t('rank.contact_information')" prop="contact_information">
+                                <fu-input-rw-switch
+                                    clearable
+                                    :disabled="!is_edit"
+                                    style="width: 100%"
+                                    v-model.trim="form.contact_information"
+                                ></fu-input-rw-switch>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
+                            <el-form-item :label="$t('celebrities.address')" prop="address">
+                                <fu-input-rw-switch
+                                    clearable
+                                    :disabled="!is_edit"
+                                    style="width: 100%"
+                                    v-model.trim="form.address"
+                                ></fu-input-rw-switch>
+                            </el-form-item>
+                            <el-form-item :label="$t('celebrities.ballot')" prop="ballot">
+                                <fu-input-rw-switch
+                                    clearable
+                                    :disabled="!is_edit"
+                                    style="width: 100%"
+                                    v-model.trim="form.ballot"
+                                ></fu-input-rw-switch>
+                            </el-form-item>
+
+                            <el-form-item :label="$t('rank.tik_tok_link')" prop="tik_tok_link">
+                                <fu-input-rw-switch
+                                    clearable
+                                    :disabled="!is_edit"
+                                    style="width: 100%"
+                                    v-model.trim="form.tik_tok_link"
+                                ></fu-input-rw-switch>
+                            </el-form-item>
+                            <el-form-item :label="$t('rank.little_red_book_link')" prop="little_red_book_link">
+                                <fu-input-rw-switch
+                                    clearable
+                                    :disabled="!is_edit"
+                                    style="width: 100%"
+                                    v-model.trim="form.little_red_book_link"
+                                ></fu-input-rw-switch>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
+                            <el-form-item :label="$t('rank.bilibili_link')" prop="bilibili_link">
+                                <fu-input-rw-switch
+                                    clearable
+                                    :disabled="!is_edit"
+                                    style="width: 100%"
+                                    v-model.trim="form.bilibili_link"
+                                ></fu-input-rw-switch>
+                            </el-form-item>
+                            <el-form-item :label="$t('rank.weibolntl_link')" prop="weibolntl_link">
+                                <fu-input-rw-switch
+                                    clearable
+                                    :disabled="!is_edit"
+                                    style="width: 100%"
+                                    v-model.trim="form.weibolntl_link"
+                                ></fu-input-rw-switch>
+                            </el-form-item>
+                            <el-form-item :label="$t('celebrities.remark')" prop="remark">
+                                <fu-input-rw-switch
+                                    clearable
+                                    :disabled="!is_edit"
+                                    style="width: 100%"
+                                    v-model.trim="form.remark"
+                                ></fu-input-rw-switch>
+                            </el-form-item>
+                            <el-form-item v-if="is_edit" :label="$t('commons.table.operate')" prop="weibolntl_link">
+                                <el-button type="primary" @click="onSubmit(formRef)">
+                                    {{ $t('commons.button.save') }}
+                                </el-button>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row type="flex" justify="start" :gutter="10">
+                        <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+                            <el-form-item :label="$t('celebrities.description_article')" prop="description">
+                                <fu-input-rw-switch
+                                    :disabled="!is_edit"
+                                    :rows="8"
+                                    type="textarea"
+                                    style="width: 100%"
+                                    v-model.trim="form.description"
+                                    placeholder="文章描述"
+                                ></fu-input-rw-switch>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-form>
+            </div>
         </el-drawer>
     </div>
     <Uploads ref="uploadRef" :upload-func="UploadImageFileData" @call-back="setUrl" />
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { getCelebrityDetail } from '@/api/modules/celebrity';
 import DrawerHeader from '@/components/drawer-header/index.vue';
 import i18n from '@/lang';
@@ -119,21 +163,48 @@ import { editCelebrityDetail } from '@/api/modules/celebrity';
 import Uploads from '@/views/celebrities/upload/index.vue';
 import { UploadImageFileData } from '@/api/modules/images';
 import { MsgSuccess } from '@/utils/message';
+import { Rules } from '@/global/form-rules';
+import { FormInstance } from 'element-plus';
 
 const emit = defineEmits(['search']);
 
-const selects = ref<any>([]);
 const loading = ref();
 
 const data = ref();
 
 const backupVisiable = ref(false);
-const name = ref();
-const detailName = ref();
 const uploadRef = ref();
+const formRef = ref();
+const is_edit = ref(true);
 
 const characters = ref();
 const sexTypes = ref();
+const initForm = () => ({
+    character: 1,
+    name: '',
+    headshot: '',
+    sex: 1,
+    address: '',
+    ballot: 0,
+    remark: '',
+    tik_tok_link: '',
+    bilibili_link: '',
+    weibolntl_link: '',
+    little_red_book_link: '',
+    description: '',
+    id: '',
+    contact_information: '',
+});
+const form = reactive(initForm());
+const rules = reactive({
+    name: [Rules.requiredInput, Rules.name],
+    ballot: [Rules.integerNumberWith0],
+    remark: [Rules.requiredInput],
+});
+
+const props = defineProps({
+    isEdit: Boolean,
+});
 
 characters.value = [
     {
@@ -173,28 +244,47 @@ sexTypes.value = [
 
 const acceptParams = (row): void => {
     backupVisiable.value = true;
+    if (props.isEdit !== undefined) {
+        is_edit.value = props.isEdit;
+    }
     getDetail(row);
 };
 const handleClose = () => {
     backupVisiable.value = false;
+    Object.assign(form, initForm());
 };
 
-const onCelebritySave = () => {
-    editCelebrityDetail(data.value[0]).then(() => {
-        MsgSuccess('保存成功！');
-        handleClose();
-        emit('search');
+const onSubmit = async (formEl: FormInstance | undefined) => {
+    formEl.validate(async (valid) => {
+        if (!valid) return;
+        loading.value = true;
+        form.ballot = form.ballot * 1;
+        editCelebrityDetail(form)
+            .then(() => {
+                MsgSuccess('保存成功！');
+                handleClose();
+                emit('search');
+            })
+            .finally(() => {
+                loading.value = false;
+            });
     });
 };
 
 const getDetail = (row) => {
-    getCelebrityDetail({ id: row.id }).then((res) => {
+    getCelebrityDetail({ id: row.id }).then((res: any) => {
         data.value = [res.data];
+        for (const key in res.data) {
+            const element = res.data[key];
+            form[key] = element;
+        }
     });
 };
 
 const openUploads = (row) => {
-    uploadRef.value.acceptParams(row);
+    if (is_edit.value) {
+        uploadRef.value.acceptParams(row);
+    }
 };
 
 const setUrl = (row) => {

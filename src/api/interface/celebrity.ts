@@ -34,6 +34,7 @@ export namespace Celebrities {
         little_red_book_link: string;
         bilibili_link: string;
         weibolntl_link: string;
+        description: string;
     }
 
     export interface SearchCelebrityPage extends ReqPage {
