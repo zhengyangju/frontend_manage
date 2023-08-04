@@ -8,16 +8,31 @@ const rankStoreRouter = {
     meta: {
         icon: 'p-rejected-order',
         title: 'menu.rank',
+        activeMenu: '/ranks',
     },
     children: [
         {
-            path: '/ranks/index',
-            name: 'Ranks',
-            component: () => import('@/views/ranks/index.vue'),
+            path: '/ranks',
+            redirect: '/ranks/index',
+            name: 'ranks',
             meta: {
                 activeMenu: '/ranks',
+                hidden: true,
                 requiresAuth: false,
             },
+            children: [
+                {
+                    path: 'index',
+                    name: 'ranksPage',
+                    component: () => import('@/views/ranks/index.vue'),
+                    props: true,
+                    hidden: true,
+                    meta: {
+                        activeMenu: '/ranks',
+                        requiresAuth: false,
+                    },
+                },
+            ],
         },
     ],
 };
