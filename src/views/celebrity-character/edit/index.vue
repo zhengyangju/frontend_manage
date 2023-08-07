@@ -8,7 +8,7 @@
             <el-form ref="formRef" label-position="top" :model="form" :rules="rules">
                 <el-row type="flex" justify="center">
                     <el-col :span="22">
-                        <el-form-item :label="$t('commons.login.username')" prop="name">
+                        <el-form-item :label="$t('celebrityCharacter.characterName')" prop="name">
                             <el-input clearable v-model.trim="form.name" />
                         </el-form-item>
                     </el-col>

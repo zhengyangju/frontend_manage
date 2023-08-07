@@ -1204,6 +1204,7 @@ const message = {
         edit: '编辑类型',
         name: '类型',
         id: 'ID',
+        characterName: '类型名称',
     },
     celebrities: {
         entertainment: '娱乐类',
