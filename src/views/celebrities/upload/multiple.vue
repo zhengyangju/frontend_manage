@@ -10,6 +10,7 @@
             <DrawerHeader :header="$t('file.upload')" :back="handleClose" />
         </template>
         <el-upload
+            multiple
             action="#"
             drag
             :auto-upload="false"
