@@ -197,7 +197,7 @@ const initForm = () => ({
 });
 const form = reactive(initForm());
 const rules = reactive({
-    name: [Rules.requiredInput, Rules.name],
+    name: [Rules.requiredInput],
     ballot: [Rules.integerNumberWith0],
 });
 
