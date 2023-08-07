@@ -63,6 +63,7 @@ let uploadHelper = ref('');
 const em = defineEmits(['close', 'call-back']);
 const props = defineProps({
     uploadFunc: Function,
+    character: String,
 });
 const handleClose = () => {
     open.value = false;
@@ -101,9 +102,8 @@ const submit = async () => {
 
         uploadHelper.value = i18n.global.t('file.fileUploadStart', [file.name]);
         const formData = new FormData();
-        formData.append('file', file.raw);
+        formData.append('character', props.character);
         formData.append('image', file.raw);
-        formData.append('path', '/');
         let res = await props.uploadFunc(formData, {});
         if (i == files.length - 1) {
             loading.value = false;

@@ -104,7 +104,12 @@
             :is-edit="true"
             :list="characteres.list"
         ></CelebritiesDetail>
-        <Uploads ref="uploadRef" :upload-func="uploadCelebrityFiles" @call-back="updateCelebrity" />
+        <Uploads
+            ref="uploadRef"
+            :character="character"
+            :upload-func="uploadCelebrityFiles"
+            @call-back="updateCelebrity"
+        />
         <Delete ref="deleteRef" @call-back="search()"></Delete>
         <MultipleUpload ref="multipleUploadRef" :upload-func="uploadMultipleAvatarFiles" @call-back="updateCelebrity" />
     </div>
