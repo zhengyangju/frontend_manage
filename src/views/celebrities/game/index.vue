@@ -7,6 +7,9 @@
                         {{ $t('celebrities.import') }}
                     </el-button>
                     <Download />
+                    <el-button plain :disabled="false" type="primary" @click="openAvatarUpload()">
+                        {{ $t('celebrities.upload_avatart') }}
+                    </el-button>
                 </el-col>
                 <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8">
                     <div class="search-button">
@@ -84,6 +87,7 @@
     <CelebritiesDetail ref="dialogBackupRef" @search="search" :is-edit="true"></CelebritiesDetail>
     <Uploads ref="uploadRef" :upload-func="uploadCelebrityFiles" @call-back="updateCelebrity" />
     <Delete ref="deleteRef" @call-back="search()"></Delete>
+    <MultipleUpload ref="multipleUploadRef" :upload-func="uploadMultipleAvatarFiles" @call-back="updateCelebrity" />
 </template>
 
 <script lang="ts" setup>
@@ -92,10 +96,11 @@ import { getCelebrityPage, setCelebrityFollow, setCelebrityLike } from '@/api/mo
 import CelebritiesDetail from '@/components/celebrities-detail/index.vue';
 import Uploads from '../upload/index.vue';
 import i18n from '@/lang';
-import { uploadCelebrityFiles } from '@/api/modules/celebrity';
+import { uploadCelebrityFiles, uploadMultipleAvatarFiles } from '@/api/modules/celebrity';
 import Delete from '../delete/index.vue';
 import { MsgSuccess } from '@/utils/message';
 import Download from '../download/index.vue';
+import MultipleUpload from '../upload/multiple.vue';
 // import { GlobalStore } from '@/store';
 
 // const globalStore = GlobalStore();
@@ -117,6 +122,8 @@ const searchName = ref();
 const dialogBackupRef = ref();
 
 const deleteRef = ref();
+
+const multipleUploadRef = ref();
 
 const onOpenBackupDialog = async (row) => {
     dialogBackupRef.value!.acceptParams(row);
@@ -188,6 +195,10 @@ const openUploads = () => {
         type: 'app',
     };
     uploadRef.value.acceptParams(params);
+};
+
+const openAvatarUpload = () => {
+    multipleUploadRef.value.acceptParams();
 };
 
 const updateCelebrity = () => {

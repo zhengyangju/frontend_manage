@@ -170,8 +170,6 @@ const emit = defineEmits(['search']);
 
 const loading = ref();
 
-const data = ref();
-
 const backupVisiable = ref(false);
 const uploadRef = ref();
 const formRef = ref();
@@ -273,7 +271,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
 
 const getDetail = (row) => {
     getCelebrityDetail({ id: row.id }).then((res: any) => {
-        data.value = [res.data];
+        // data.value = [res.data];
         for (const key in res.data) {
             const element = res.data[key];
             form[key] = element;
@@ -289,8 +287,9 @@ const openUploads = (row) => {
 
 const setUrl = (row) => {
     // console.log(row);
-    let d = data.value.find((item) => item.id === row.id);
-    d['headshot'] = row.headshot;
+    // let d = data.value.find((item) => item.id === row.id);
+    // d['headshot'] = row.headshot;
+    form['headshot'] = row.headshot;
 };
 
 defineExpose({

@@ -1222,6 +1222,7 @@ const message = {
         delete_celebrity: '删除网红',
         confirm_delete: '您是否确认删除此网红？',
         description_article: '文章描述:',
+        upload_avatart: '导入头像',
         app: '应用',
         installName: '安装名称',
         installed: '已安装',
