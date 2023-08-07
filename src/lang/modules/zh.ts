@@ -254,6 +254,7 @@ const message = {
         process: '进程',
         network: '网络',
         userlist: '用户管理',
+        celebrityCharacter: '名人类型',
     },
     home: {
         overview: '概览',
@@ -1196,6 +1197,13 @@ const message = {
         little_red_book_link: '小红书链接',
         bilibili_link: 'B站链接',
         weibolntl_link: '微博链接',
+    },
+    celebrityCharacter: {
+        character: '网络名人类型',
+        create: '新增类型',
+        edit: '编辑类型',
+        name: '类型',
+        id: 'ID',
     },
     celebrities: {
         entertainment: '娱乐类',

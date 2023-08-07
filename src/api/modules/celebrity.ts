@@ -34,3 +34,15 @@ export const ChunkCelebrityUploadFileData = (params: FormData, config: AxiosRequ
 export const downloadCelebrityFiles = (params?: File.FileDownload) => {
     return http.download<BlobPart>('/celebrities/template', params, { responseType: 'blob', timeout: 20000 });
 };
+export const getCelebrityCharacterPage = (params: Celebrities.SearchCelebrityCharacterPage) => {
+    return http.get<ResPage<Celebrities.CelebrityCharacterInfo>>(`/celebrity_characters`, params);
+};
+export const editCelebrityCharacter = (params: Celebrities.CelebrityCharacterInfo) => {
+    return http.put(`/celebrity_characters/${params.id}`, params);
+};
+export const addCelebrityCharacter = (params: Celebrities.CelebrityCharacterInfo) => {
+    return http.post(`/celebrity_characters`, params);
+};
+export const deleteCelebrityCharacter = (params: Celebrities.CelebrityCharacterInfo) => {
+    return http.delete(`/celebrity_characters/${params.id}`);
+};
