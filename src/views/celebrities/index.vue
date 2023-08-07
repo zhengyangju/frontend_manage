@@ -98,7 +98,12 @@
                 </ComplexTable>
             </template>
         </LayoutContent>
-        <CelebritiesDetail ref="dialogBackupRef" @search="search" :is-edit="true"></CelebritiesDetail>
+        <CelebritiesDetail
+            ref="dialogBackupRef"
+            @search="search"
+            :is-edit="true"
+            :list="characteres.list"
+        ></CelebritiesDetail>
         <Uploads ref="uploadRef" :upload-func="uploadCelebrityFiles" @call-back="updateCelebrity" />
         <Delete ref="deleteRef" @call-back="search()"></Delete>
         <MultipleUpload ref="multipleUploadRef" :upload-func="uploadMultipleAvatarFiles" @call-back="updateCelebrity" />

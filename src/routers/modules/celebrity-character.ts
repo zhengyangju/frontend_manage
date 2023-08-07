@@ -6,7 +6,7 @@ const userListStoreRouter = {
     component: Layout,
     redirect: '/celebrity-character/list',
     meta: {
-        icon: 'p-home',
+        icon: 'p-caidan',
         title: 'menu.celebrityCharacter',
     },
     children: [
