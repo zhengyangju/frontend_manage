@@ -13,6 +13,13 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
+                <el-row type="flex" justify="center">
+                    <el-col :span="22">
+                        <el-form-item :label="$t('celebrityCharacter.en_name')" prop="en_name">
+                            <el-input clearable v-model.trim="form.en_name" />
+                        </el-form-item>
+                    </el-col>
+                </el-row>
             </el-form>
         </div>
 
@@ -44,11 +51,13 @@ const createVisiable = ref(false);
 
 const initForm = () => ({
     name: '',
+    en_name: '',
     id: '',
 });
 const form = reactive(initForm());
 const rules = reactive({
     name: [Rules.requiredInput],
+    en_name: [Rules.requiredInput],
 });
 type FormInstance = InstanceType<typeof ElForm>;
 const formRef = ref<FormInstance>();
@@ -56,8 +65,9 @@ const formRef = ref<FormInstance>();
 const acceptParams = (params): void => {
     if (params) {
         random();
-        const { name, id } = params;
+        const { name, en_name, id } = params;
         form.name = name || '';
+        form.en_name = en_name || '';
         form.id = id || '';
     } else {
         form.id = '';
@@ -76,15 +86,16 @@ const emit = defineEmits<{ (e: 'search'): void }>();
 
 const onSubmit = async (formEl: FormInstance | undefined) => {
     let func = form.id !== '' ? editCelebrityCharacter : addCelebrityCharacter;
-    const { name, id } = form;
+    const { name, en_name, id } = form;
     let params = {
         name,
+        en_name,
     };
     if (id !== '') {
         params['id'] = id;
     }
-    console.log(params);
-    console.log(func);
+    // console.log(params);
+    // console.log(func);
 
     if (!formEl) return;
     formEl.validate(async (valid) => {

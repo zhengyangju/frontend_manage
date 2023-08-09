@@ -38,6 +38,13 @@
                         </span>
                     </template>
                 </el-table-column>
+                <el-table-column :label="$t('celebrityCharacter.en_name')" prop="en_name">
+                    <template #default="{ row }">
+                        <span v-if="row.en_name">
+                            {{ row.en_name }}
+                        </span>
+                    </template>
+                </el-table-column>
                 <fu-table-operations
                     width="200"
                     :ellipsis="4"

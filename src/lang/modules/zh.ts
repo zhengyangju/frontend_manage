@@ -1203,6 +1203,7 @@ const message = {
         create: '新增类型',
         edit: '编辑类型',
         name: '类型',
+        en_name: '类型-英文',
         id: 'ID',
         characterName: '类型名称',
     },
